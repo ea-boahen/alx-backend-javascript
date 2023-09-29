@@ -1,36 +1,9 @@
 // Handle multiple promises
-// import signUpUser from './4-user-promise';
-// import uploadPhoto from './5-photo-reject';
+import signUpUser from './4-user-promise';
+import uploadPhoto from './5-photo-reject';
 
-// function handleProfileSignup(firstName = '', lastName = '', fileName = '') {
-//   return Promise.allSettled([uploadPhoto(fileName), signUpUser(firstName, lastName)]);
-// }
-
-// export default handleProfileSignup;
-import { signUpUser } from './4-user-promise.js';
-import { uploadPhoto } from './5-photo-reject.js';
-
-async function handleProfileSignup(firstName, lastName, fileName) {
-    try {
-        const userPromise = signUpUser(firstName, lastName);
-        const photoPromise = uploadPhoto(fileName);
-
-        const [userResult, photoResult] = await Promise.allSettled([userPromise, photoPromise]);
-
-        return [
-            {
-                status: userResult.status,
-                value: userResult.status === 'fulfilled' ? userResult.value : userResult.reason,
-            },
-            {
-                status: photoResult.status,
-                value: photoResult.status === 'fulfilled' ? photoResult.value : photoResult.reason,
-            },
-        ];
-    } catch (error) {
-        // Handle any unexpected errors here
-        return [];
-    }
+function handleProfileSignup(firstName = '', lastName = '', fileName = '') {
+  return Promise.allSettled([uploadPhoto(fileName), signUpUser(firstName, lastName)]);
 }
 
 export default handleProfileSignup;
